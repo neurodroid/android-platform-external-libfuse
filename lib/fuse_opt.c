@@ -54,10 +54,15 @@ int fuse_opt_add_arg(struct fuse_args *args, const char *arg)
 
 	assert(!args->argv || args->allocated);
 
-	newargv = realloc(args->argv, (args->argc + 2) * sizeof(char *));
-	newarg = newargv ? strdup(arg) : NULL;
-	if (!newargv || !newarg)
+	newarg = strdup(arg);
+	if (!newarg)
 		return alloc_failed();
+
+	newargv = realloc(args->argv, (args->argc + 2) * sizeof(char *));
+	if (!newargv) {
+		free(newarg);
+		return alloc_failed();
+	}
 
 	args->argv = newargv;
 	args->allocated = 1;
@@ -228,7 +233,7 @@ static int process_opt(struct fuse_opt_context *ctx,
 		if (call_proc(ctx, arg, opt->value, iso) == -1)
 			return -1;
 	} else {
-		void *var = (unsigned char*)(ctx->data) + opt->offset;
+		void *var = ctx->data + opt->offset;
 		if (sep && opt->templ[sep + 1]) {
 			const char *param = arg + sep;
 			if (opt->templ[sep] == '=')
@@ -304,9 +309,21 @@ static int process_real_option_group(struct fuse_opt_context *ctx, char *opts)
 				return -1;
 			d = opts;
 		} else {
-			if (s[0] == '\\' && s[1] != '\0')
+			if (s[0] == '\\' && s[1] != '\0') {
 				s++;
-			*d++ = *s;
+				if (s[0] >= '0' && s[0] <= '3' &&
+				    s[1] >= '0' && s[1] <= '7' &&
+				    s[2] >= '0' && s[2] <= '7') {
+					*d++ = (s[0] - '0') * 0100 +
+						(s[1] - '0') * 0010 +
+						(s[2] - '0');
+					s += 2;
+				} else {
+					*d++ = *s;
+				}
+			} else {
+				*d++ = *s;
+			}
 		}
 		s++;
 	}

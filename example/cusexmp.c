@@ -6,7 +6,7 @@
   This program can be distributed under the terms of the GNU GPL.
   See the file COPYING.
 
-  gcc -Wall `pkg-config fuse --cflags --libs` cusexmp.c -o cusexmp
+  gcc -Wall cusexmp.c `pkg-config fuse --cflags --libs` -o cusexmp
 */
 
 #define FUSE_USE_VERSION 29
@@ -247,7 +247,7 @@ static int cusexmp_process_arg(void *data, const char *arg, int key,
 	switch (key) {
 	case 0:
 		param->is_help = 1;
-		fprintf(stderr, usage);
+		fprintf(stderr, "%s", usage);
 		return fuse_opt_add_arg(outargs, "-ho");
 	default:
 		return 1;

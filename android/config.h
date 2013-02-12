@@ -16,8 +16,14 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define to 1 if you have the `posix_fallocate' function. */
+// #undef HAVE_POSIX_FALLOCATE
+
 /* Define to 1 if you have the `setxattr' function. */
 #define HAVE_SETXATTR 1
+
+/* Define to 1 if you have the `splice' function. */
+// #undef HAVE_SPLICE
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -31,11 +37,11 @@
 /* Define to 1 if you have the <string.h> header file. */
 #define HAVE_STRING_H 1
 
-/* Define to 1 if `st_atim' is member of `struct stat'. */
-//#define HAVE_STRUCT_STAT_ST_ATIM 0
+/* Define to 1 if `st_atim' is a member of `struct stat'. */
+// #undef HAVE_STRUCT_STAT_ST_ATIM
 
-/* Define to 1 if `st_atimespec' is member of `struct stat'. */
-/* #undef HAVE_STRUCT_STAT_ST_ATIMESPEC */
+/* Define to 1 if `st_atimespec' is a member of `struct stat'. */
+// #undef HAVE_STRUCT_STAT_ST_ATIMESPEC
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -45,6 +51,12 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
+
+/* Define to 1 if you have the `utimensat' function. */
+// #undef HAVE_UTIMENSAT
+
+/* Define to 1 if you have the `vmsplice' function. */
+// #undef HAVE_VMSPLICE
 
 /* Define as const if the declaration of iconv() needs const. */
 #define ICONV_CONST 
@@ -69,16 +81,19 @@
 #define PACKAGE_NAME "fuse"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "fuse 2.8.5"
+#define PACKAGE_STRING "fuse 2.9.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "fuse"
 
+/* Define to the home page for this package. */
+// #undef PACKAGE_URL
+
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "2.8.5"
+#define PACKAGE_VERSION "2.9.2"
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "2.8.5"
+#define VERSION "2.9.2"
