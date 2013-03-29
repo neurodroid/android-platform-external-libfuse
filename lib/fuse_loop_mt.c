@@ -268,6 +268,7 @@ int fuse_session_loop_mt(struct fuse_session *se)
 		while (!fuse_session_exited(se))
 			sem_wait(&mt.finish);
 
+		pthread_mutex_lock(&mt.lock);
 		for (w = mt.main.next; w != &mt.main; w = w->next)
 #if defined(__ANDROID__)
 			pthread_kill(w->thread_id, SIGUSR1);
@@ -275,6 +276,7 @@ int fuse_session_loop_mt(struct fuse_session *se)
 			pthread_cancel(w->thread_id);
 #endif
 		mt.exit = 1;
+		pthread_mutex_unlock(&mt.lock);
 
 		while (mt.main.next != &mt.main)
 			fuse_join_worker(&mt, mt.main.next);
