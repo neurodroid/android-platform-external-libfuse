@@ -1,10 +1,11 @@
-AC_INIT(fuse, 2.9.2)
+AC_INIT(fuse, 2.9.3)
+
 AC_PREREQ(2.59d)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES(yes)])
-AM_CONFIG_HEADER(include/config.h)
+AC_CONFIG_HEADERS(include/config.h)
 
 AC_PROG_LIBTOOL
 AC_PROG_CC
@@ -57,13 +58,6 @@ AC_CHECK_FUNCS([posix_fallocate])
 AC_CHECK_MEMBERS([struct stat.st_atim])
 AC_CHECK_MEMBERS([struct stat.st_atimespec])
 
-AM_CONDITIONAL(HAVE_PTHREAD, test "$target_os" != "linux-androideabi")
-if test "$target_os" != "linux-androideabi"; then
-libfuse_libs="-pthread"
-else
-libfuse_libs=""
-fi
-
 LIBS=
 AC_SEARCH_LIBS(dlopen, [dl])
 AC_SEARCH_LIBS(clock_gettime, [rt])
@@ -109,8 +103,12 @@ if test "$arch" = linux -a "$cross_compiling" != "yes"; then
 		AC_MSG_RESULT([yes])
 	else
 		firstline=`umount --fake --no-canonicalize 2>&1 | head -1`
-		AC_MSG_RESULT([$firstline])
-		util_linux_ok=no
+		if test "$firstline" = 'umount: only root can use "--fake" option'; then
+			AC_MSG_RESULT([yes])
+		else
+			AC_MSG_RESULT([$firstline])
+			util_linux_ok=no
+		fi
 	fi
 fi
 

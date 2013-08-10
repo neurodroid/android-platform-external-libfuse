@@ -36,7 +36,7 @@ libfuse_la_SOURCES = 		\
 	$(iconv_source)		\
 	$(mount_source)
 
-libfuse_la_LDFLAGS = -pthread @libfuse_libs@ -version-number 2:9:2 \
+libfuse_la_LDFLAGS = -pthread @libfuse_libs@ -version-number 2:9:3 \
 	-Wl,--version-script,$(srcdir)/fuse_versionscript
 
 if NETBSD
@@ -44,10 +44,6 @@ libfuse_la_LIBADD = -lperfuse -lpuffs
 endif
 
 libulockmgr_la_SOURCES = ulockmgr.c
-if HAVE_PTHREAD
 libulockmgr_la_LDFLAGS = -pthread -version-number 1:0:1
-else
-libulockmgr_la_LDFLAGS = -version-number 1:0:1
-endif
 
 EXTRA_DIST = fuse_versionscript
