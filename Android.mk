@@ -17,5 +17,7 @@ LOCAL_EXPORT_CFLAGS := $(LOCAL_CFLAGS)
 LOCAL_LDLIBS := -Wl,--version-script=lib/fuse_versionscript
 LOCAL_SHARED_LIBRARIES := libc libdl
 
+TARGET_PLATFORM := android-21
+
 include $(BUILD_STATIC_LIBRARY)
 

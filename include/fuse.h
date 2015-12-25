@@ -31,13 +31,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #if defined(__ANDROID__)
-  #include <sys/vfs.h>
-  #define statvfs statfs
-  #define fstatvfs fstatfs
 #include <pthread.h>
-#else
-#include <sys/statvfs.h>
 #endif
+#include <sys/statvfs.h>
 #include <sys/uio.h>
 
 #ifdef __cplusplus
